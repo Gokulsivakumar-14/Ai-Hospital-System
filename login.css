@@ -1,0 +1,250 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+  background-color: #d8f2f6;
+  color: #1e293b;
+  padding: 20px;
+}
+
+/* MAIN CONTAINER CARD */
+.login-card {
+  width: 100%;
+  max-width: 960px;
+  height: 580px;
+  display: flex;
+  border-radius: 28px;
+  background: radial-gradient(circle at 0% 0%, #fcfefe 0%, #ebf9fb 100%);
+  box-shadow: 0 25px 60px rgba(15, 23, 42, 0.08);
+  overflow: hidden;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+/* LEFT ILLUSTRATION PANEL */
+.illustration-panel {
+  flex: 1.1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 100%;
+}
+
+.circle-bg {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: #a2e8f1;
+  z-index: 1;
+}
+
+.illustration-panel img {
+  width: 440px;
+  height: auto;
+  z-index: 2;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.05));
+  animation: floatIllustration 6s ease-in-out infinite;
+}
+
+@keyframes floatIllustration {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+/* RIGHT FORM PANEL */
+.form-panel {
+  flex: 0.9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding-right: 40px;
+}
+
+/* LOGIN BOX CARD */
+.login-box {
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.05);
+  padding: 38px 34px;
+  width: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid rgba(0, 0, 0, 0.02);
+}
+
+/* LOGO HEADER */
+.logo-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+.logo-img {
+  max-width: 240px;
+  height: auto;
+  object-fit: contain;
+}
+
+.login-box h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 26px;
+  text-align: center;
+}
+
+/* INPUTS */
+select,
+input {
+  width: 100%;
+  padding: 13px 16px;
+  margin-bottom: 14px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: #f1f5f9;
+  color: #0f172a;
+  font-size: 14px;
+  outline: none;
+  font-weight: 500;
+  transition: all 0.25s ease;
+}
+
+select option {
+  color: #0f172a;
+}
+
+input::placeholder {
+  color: #94a3b8;
+}
+
+/* Focus effects */
+select:focus,
+input:focus {
+  border-color: #0ea5e9;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.12);
+}
+
+/* PASSWORD WRAPPER */
+.password-box {
+  position: relative;
+  width: 100%;
+}
+
+.password-box span {
+  position: absolute;
+  right: 16px;
+  top: 45%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 16px;
+  opacity: 0.55;
+  transition: opacity 0.2s;
+  user-select: none;
+}
+
+.password-box span:hover {
+  opacity: 0.9;
+}
+
+/* REMEMBER ME CHECKBOX */
+.remember {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  margin-bottom: 24px;
+  font-size: 13px;
+  color: #475569;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.remember input {
+  width: auto;
+  margin: 0;
+  cursor: pointer;
+}
+
+/* LOGIN BUTTON */
+button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: #0ea5e9;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 6px 18px rgba(14, 165, 233, 0.22);
+}
+
+button:hover {
+  transform: translateY(-2px);
+  background: #0284c7;
+  box-shadow: 0 10px 25px rgba(14, 165, 233, 0.35);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* ERROR MESSAGE */
+#msg {
+  margin-top: 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ef4444;
+  text-align: center;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 840px) {
+  .illustration-panel {
+    display: none;
+  }
+  
+  .form-panel {
+    flex: 1;
+    padding: 0;
+  }
+  
+  .login-card {
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    height: auto;
+    max-width: 420px;
+    justify-content: center;
+  }
+  
+  .login-box {
+    width: 100%;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.06);
+  }
+}

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+  <defs>
+    <linearGradient id="sparkleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF4B72" />
+      <stop offset="50%" stop-color="#A83DF5" />
+      <stop offset="100%" stop-color="#00D2FF" />
+    </linearGradient>
+  </defs>
+  <!-- Large Sparkle Star -->
+  <path d="M 10 2 Q 10 10 2 10 Q 10 10 10 18 Q 10 10 18 10 Q 10 10 10 2 Z" fill="url(#sparkleGradient)" stroke="url(#sparkleGradient)" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" />
+  <!-- Small Sparkle Star -->
+  <path d="M 19 12 Q 19 16 15 16 Q 19 16 19 20 Q 19 16 23 16 Q 19 16 19 12 Z" fill="url(#sparkleGradient)" stroke="url(#sparkleGradient)" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" />
+</svg>

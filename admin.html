@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GJB Hospital – Admin</title>
+<link rel="stylesheet" href="admin.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<header>⚕️ GJB Hospital</header>
+<div id="liveDateTime">
+  🕒 <span id="time"></span><br>
+  📅 <span id="date"></span>
+</div>
+
+<button id="darkToggle" onclick="toggleDarkMode()"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></button>
+<button id="logoutBtn" onclick="logout()">Logout</button>
+
+<nav>
+ <button onclick="showSection('dashboard')">Dashboard</button>
+ <button onclick="showSection('patients')">Patients</button>
+ <button onclick="showSection('doctors')">Doctors</button>
+ <button onclick="showSection('nurses')">Nurses</button>
+ <button onclick="showSection('revenue')">Revenue</button>
+ <button onclick="showSection('inventory')">Inventory</button>
+</nav>
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="active">
+ <div class="card-grid">
+  <div class="card stat">👥 Patients<br><b id="pCount"></b></div>
+  <div class="card stat">🩺 Doctors<br><b id="dCount"></b></div>
+  <div class="card stat">🚑 Emergency<br><b id="emergency"></b></div>
+  <div class="card stat">🏥 Operations<br><b id="operations"></b></div>
+  <div class="card stat">👩‍⚕️ Female Nurses<br><b id="femaleNurse"></b></div>
+<div class="card stat">👨‍⚕️ Male Nurses<br><b id="maleNurse"></b></div>
+
+ </div>
+</section>
+
+<!-- PATIENTS -->
+<section id="patients">
+ <div class="card">
+  <h2>🛌 Patients List</h2>
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input
+      id="patSearch"
+      type="text"
+      placeholder="Search patients..."
+      onkeyup="searchPatients()"
+    >
+  </div>
+  <table id="pTable"></table>
+ </div>
+</section>
+ 
+<!-- DOCTORS -->
+<section id="doctors">
+ <div class="card">
+  <h2>🩺 Doctors List</h2>
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input
+      id="docSearch"
+      type="text"
+      placeholder="Search doctors..."
+      onkeyup="searchDoctors()"
+    >
+  </div>
+  <table id="dTable"></table>
+ </div>
+</section>
+
+<!-- NURSES -->
+<section id="nurses">
+
+  <!-- ADD / UPDATE NURSE -->
+  <div class="card">
+    <h2>🧑‍⚕️ Nurses</h2>
+
+    <div class="inventory-form">
+      <input id="nurseName" placeholder="Nurse Name">
+
+      <select id="nurseGender">
+        <option>Female</option>
+        <option>Male</option>
+      </select>
+
+      <select id="nurseShift">
+        <option>Day</option>
+        <option>Night</option>
+      </select>
+
+      <select id="nurseStatus">
+        <option value="true">On Duty</option>
+        <option value="false">Off Duty</option>
+      </select>
+
+      <button class="btn-primary" onclick="saveNurse()">
+        UPDATE
+      </button>
+    </div>
+  </div>
+
+  <!-- NURSE TABLE -->
+  <div class="card">
+    <h2>📋 Nurse List</h2>
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input
+        id="nurseSearch"
+        type="text"
+        placeholder="Search nurses..."
+        onkeyup="searchNurses()"
+      >
+    </div>
+    <table id="nurseTable"></table>
+  </div>
+</section>
+
+<!-- INVENTORY -->
+ <section id="inventory">
+
+  <!-- ADD INVENTORY -->
+  <div class="inventory-card">
+    <h2>🏥 Hospital Inventory</h2>
+
+    <div class="inventory-form">
+      <div class="field">
+        <label>Item Name</label>
+        <input id="itemName" placeholder="e.g. Ventilator">
+      </div>
+
+      <div class="field">
+        <label>Type</label>
+        <select id="itemType">
+          <option>Equipment</option>
+          <option>Medicine</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Quantity</label>
+        <input id="itemQty" type="number" placeholder="Enter quantity">
+      </div>
+
+      <div class="field btn-field">
+        <button class="btn-primary" onclick="addItem()">
+          ➕ Add Item
+        </button>
+      </div>
+    </div>
+  </div>
+<div class="search-box">
+  <span class="search-icon">🔍</span>
+  <input
+    id="invSearch"
+    type="text"
+    placeholder="Search inventory"
+    onkeyup="searchInventory()"
+  >
+</div>
+ 
+
+  <!-- INVENTORY TABLE -->
+  <div class="card">
+    <h2>📦 Inventory List</h2>
+    <table id="invTable"></table>
+  </div>
+</section>
+<div id="editModal" class="modal">
+  <div class="modal-box">
+    <h3>Edit Quantity</h3>
+    <input id="editQty" type="number">
+    <div class="modal-actions">
+      <button onclick="saveEdit()" class="btn-primary">Save</button>
+      <button onclick="closeModal()" class="btn-danger">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- REVENUE -->
+<section id="revenue">
+ <div class="card">
+  <h2>💰 Revenue Details</h2>
+  <p>Total Revenue: ₹ <b id="totalRevenue"></b></p>
+  <button onclick="toggleChart()">Show / Hide Chart</button>
+  <canvas id="revChart" height="120"></canvas>
+ </div>
+</section>
+<div class="card">
+ <h2>💰 Total Revenue</h2>
+ <h1 id="totalRevenue">₹0</h1>
+</div>
+
+<div class="card">
+ <h2>📊 Revenue Chart</h2>
+ <canvas id="revenueChart"></canvas>
+</div>
+<script src="admin.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
+<div style="height:260px;">
+ <canvas id="revenueChart"></canvas>
+</div>
+
+<footer class="admin-footer">
+  GOKUL S <span>||</span> CSE B <span>||</span> 2117240020107
+</footer>
