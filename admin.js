@@ -94,16 +94,16 @@ function showConfirm(message, title = "Confirmation") {
 }
 
 // SECTION SWITCH
-function showSection(id){
- document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
- document.getElementById(id).classList.add("active");
- if (id === 'revenue') {
-   renderRevenueChart();
- }
+function showSection(id) {
+  document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  if (id === 'revenue') {
+    renderRevenueChart();
+  }
 }
 
 // GLOBAL STATE
-const API_BASE = window.location.protocol === "file:" ? "http://localhost:5000" : "";
+const API_BASE = "https://ai-hospital-system-drr0.onrender.com";
 let patients = [];
 let doctors = [];
 let payments = [];
@@ -152,21 +152,21 @@ setInterval(fetchAdminData, 5000);
 function updateDashboardStats() {
   pCount.innerText = patients.length;
   dCount.innerText = doctors.length;
-  
+
   // Random/Semi-static stats
   if (!emergency.innerText || emergency.innerText === "") {
-    emergency.innerText = Math.floor(Math.random()*15)+5;
+    emergency.innerText = Math.floor(Math.random() * 15) + 5;
   }
   if (!operations.innerText || operations.innerText === "") {
-    operations.innerText = Math.floor(Math.random()*10)+3;
+    operations.innerText = Math.floor(Math.random() * 10) + 3;
   }
 }
 
 // PATIENT TABLE
 function renderPatientsTable() {
   pTable.innerHTML = "<tr><th>ID</th><th>Name</th><th>Age</th><th>Disease</th></tr>";
-  patients.forEach(p=>{
-   pTable.innerHTML+=`
+  patients.forEach(p => {
+    pTable.innerHTML += `
    <tr>
     <td>${p.id}</td>
     <td>${p.name}</td>
@@ -180,8 +180,8 @@ function renderPatientsTable() {
 // DOCTOR TABLE
 function renderDoctorsTable() {
   dTable.innerHTML = "<tr><th>ID</th><th>Name</th><th>Specialization</th><th>Status</th></tr>";
-  doctors.forEach(d=>{
-   dTable.innerHTML+=`
+  doctors.forEach(d => {
+    dTable.innerHTML += `
    <tr>
     <td>${d.id}</td>
     <td>${d.name}</td>
@@ -200,42 +200,42 @@ function renderRevenueSummary() {
 }
 
 // CHART DRAWING
-function renderRevenueChart(){
+function renderRevenueChart() {
   const ctx = document.getElementById("revenueChart");
-  if(!ctx) return;
+  if (!ctx) return;
 
   if (chartInstance) {
     chartInstance.destroy();
   }
 
-  chartInstance = new Chart(ctx,{
-    type:'bar',
-    data:{
-      labels: payments.map(p=>p.date.split(",")[0]),
-      datasets:[{
-        label:"Revenue Rs. ",
-        data: payments.map(p=>p.amount),
-        backgroundColor:[
-          "#2563eb","#16a34a","#f59e0b","#dc2626","#9333ea"
+  chartInstance = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: payments.map(p => p.date.split(",")[0]),
+      datasets: [{
+        label: "Revenue Rs. ",
+        data: payments.map(p => p.amount),
+        backgroundColor: [
+          "#2563eb", "#16a34a", "#f59e0b", "#dc2626", "#9333ea"
         ]
       }]
     },
-    options:{
-      responsive:true,
-      maintainAspectRatio:false,   
-      plugins:{
-        legend:{display:false}
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false }
       },
-      scales:{
-        y:{
-          beginAtZero:true
+      scales: {
+        y: {
+          beginAtZero: true
         }
       }
     }
   });
 }
 
-function toggleChart(){
+function toggleChart() {
   const chartWrapper = document.getElementById("revenueChart");
   if (chartWrapper) {
     chartWrapper.style.display = chartWrapper.style.display === "none" ? "block" : "none";
@@ -243,19 +243,19 @@ function toggleChart(){
 }
 
 // DARK MODE
-function toggleDarkMode(){
+function toggleDarkMode() {
   document.body.classList.toggle("dark");
   darkToggle.innerHTML =
     document.body.classList.contains("dark") ? sunIcon : moonIcon;
 }
 
 /* ===== INVENTORY ===== */
-async function addItem(){
+async function addItem() {
   let name = itemName.value.trim();
   let type = itemType.value;
   let qty = Number(itemQty.value);
 
-  if(!name || qty<=0){
+  if (!name || qty <= 0) {
     await showAlert("Fill inventory details");
     return;
   }
@@ -266,7 +266,7 @@ async function addItem(){
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ item_name: name, type, quantity: qty })
     });
-    
+
     itemName.value = "";
     itemQty.value = "";
     await fetchAdminData();
@@ -277,9 +277,9 @@ async function addItem(){
   }
 }
 
-async function removeItem(id){
+async function removeItem(id) {
   const confirmed = await showConfirm("Are you sure you want to remove this item?");
-  if(!confirmed) return;
+  if (!confirmed) return;
 
   try {
     await fetch(API_BASE + `/api/inventory/${id}`, { method: "DELETE" });
@@ -290,18 +290,18 @@ async function removeItem(id){
   }
 }
 
-function getStockBadge(qty){
-  if(qty < 20){
+function getStockBadge(qty) {
+  if (qty < 20) {
     return `<span class="badge danger">LOW</span>`;
   }
-  if(qty < 50){
+  if (qty < 50) {
     return `<span class="badge warn">WARNING</span>`;
   }
   return `<span class="badge safe">SAFE</span>`;
 }
 
-function renderInventory(){
-  if(!invTable) return;
+function renderInventory() {
+  if (!invTable) return;
 
   invTable.innerHTML = `
     <tr>
@@ -313,7 +313,7 @@ function renderInventory(){
     </tr>
   `;
 
-  inventory.forEach(i=>{
+  inventory.forEach(i => {
     invTable.innerHTML += `
       <tr>
         <td>${i.id}</td>
@@ -333,22 +333,22 @@ function renderInventory(){
   searchInventory();
 }
 
-function openEdit(id){
+function openEdit(id) {
   editId = id;
-  let item = inventory.find(i=>i.id===id);
+  let item = inventory.find(i => i.id === id);
   if (item) {
     editQty.value = item.qty;
-    editModal.style.display="flex";
+    editModal.style.display = "flex";
   }
 }
 
-function closeModal(){
-  editModal.style.display="none";
+function closeModal() {
+  editModal.style.display = "none";
 }
 
-async function saveEdit(){
+async function saveEdit() {
   let qtyVal = Number(editQty.value);
-  if(isNaN(qtyVal) || qtyVal < 0){
+  if (isNaN(qtyVal) || qtyVal < 0) {
     await showAlert("Invalid quantity");
     return;
   }
@@ -367,66 +367,66 @@ async function saveEdit(){
   }
 }
 
-function searchInventory(){
+function searchInventory() {
   if (!invTable) return;
   let q = invSearch.value.toLowerCase();
   let rows = invTable.querySelectorAll("tr");
 
-  rows.forEach((row,i)=>{
-    if(i===0) return;
+  rows.forEach((row, i) => {
+    if (i === 0) return;
     row.style.display =
       row.innerText.toLowerCase().includes(q) ? "" : "none";
   });
 }
 
-function searchPatients(){
-  if(!pTable) return;
+function searchPatients() {
+  if (!pTable) return;
   const searchInput = document.getElementById("patSearch");
-  if(!searchInput) return;
+  if (!searchInput) return;
   let q = searchInput.value.toLowerCase();
   let rows = pTable.querySelectorAll("tr");
 
-  rows.forEach((row,i)=>{
-    if(i===0) return;
+  rows.forEach((row, i) => {
+    if (i === 0) return;
     row.style.display =
       row.innerText.toLowerCase().includes(q) ? "" : "none";
   });
 }
 
 // Added Doctors table search
-function searchDoctors(){
-  if(!dTable) return;
+function searchDoctors() {
+  if (!dTable) return;
   const searchInput = document.getElementById("docSearch");
-  if(!searchInput) return;
+  if (!searchInput) return;
   let q = searchInput.value.toLowerCase();
   let rows = dTable.querySelectorAll("tr");
 
-  rows.forEach((row,i)=>{
-    if(i===0) return;
+  rows.forEach((row, i) => {
+    if (i === 0) return;
     row.style.display =
       row.innerText.toLowerCase().includes(q) ? "" : "none";
   });
 }
 
-function searchNurses(){
-  if(!nurseTable) return;
+function searchNurses() {
+  if (!nurseTable) return;
   const searchInput = document.getElementById("nurseSearch");
-  if(!searchInput) return;
+  if (!searchInput) return;
   let q = searchInput.value.toLowerCase();
   let rows = nurseTable.querySelectorAll("tr");
 
-  rows.forEach((row,i)=>{
-    if(i===0) return;
+  rows.forEach((row, i) => {
+    if (i === 0) return;
     row.style.display =
       row.innerText.toLowerCase().includes(q) ? "" : "none";
   });
 }
 
-async function logout(){
+async function logout() {
   const confirmed = await showConfirm("Are you sure you want to logout?");
-  if(!confirmed) return;
+  if (!confirmed) return;
   localStorage.removeItem("loggedIn");
-  window.location.href="login.html";
+  window.location.href = "login.html";
 }
 
 /* ===========================
@@ -434,9 +434,9 @@ async function logout(){
  =========================== */
 
 /* SAVE / UPDATE */
-async function saveNurse(){
+async function saveNurse() {
   let name = nurseName.value.trim();
-  if(!name){ await showAlert("Enter nurse name"); return; }
+  if (!name) { await showAlert("Enter nurse name"); return; }
 
   try {
     await fetch(API_BASE + "/api/nurses", {
@@ -461,21 +461,21 @@ async function saveNurse(){
 }
 
 /* EDIT */
-function editNurse(id){
-  let n = nurses.find(n=>n.id===id);
+function editNurse(id) {
+  let n = nurses.find(n => n.id === id);
   if (n) {
     editNurseId = id;
     nurseName.value = n.name;
     nurseGender.value = n.gender;
     nurseShift.value = n.shift;
-    nurseStatus.value = n.on ? "true":"false";
+    nurseStatus.value = n.on ? "true" : "false";
   }
 }
 
 /* REMOVE */
-async function removeNurse(id){
+async function removeNurse(id) {
   const confirmed = await showConfirm("Remove nurse?");
-  if(!confirmed) return;
+  if (!confirmed) return;
   try {
     await fetch(API_BASE + `/api/nurses/${id}`, { method: "DELETE" });
     await fetchAdminData();
@@ -486,7 +486,7 @@ async function removeNurse(id){
 }
 
 /* TABLE */
-function renderNurses(){
+function renderNurses() {
   if (!nurseTable) return;
   nurseTable.innerHTML = `
     <tr>
@@ -499,7 +499,7 @@ function renderNurses(){
     </tr>
   `;
 
-  nurses.forEach(n=>{
+  nurses.forEach(n => {
     nurseTable.innerHTML += `
       <tr>
         <td>${n.id}</td>
@@ -507,8 +507,8 @@ function renderNurses(){
         <td>${n.gender}</td>
         <td>${n.shift}</td>
         <td>
-          <span class="badge ${n.on?'safe':'danger'}">
-            ${n.on?'On Duty':'Off Duty'}
+          <span class="badge ${n.on ? 'safe' : 'danger'}">
+            ${n.on ? 'On Duty' : 'Off Duty'}
           </span>
         </td>
         <td>
@@ -522,15 +522,15 @@ function renderNurses(){
 }
 
 /* DASHBOARD */
-function updateNurseDashboard(){
+function updateNurseDashboard() {
   if (!femaleNurse || !maleNurse) return;
   femaleNurse.innerText =
-    nurses.filter(n=>n.gender==="Female" && n.on).length;
+    nurses.filter(n => n.gender === "Female" && n.on).length;
   maleNurse.innerText =
-    nurses.filter(n=>n.gender==="Male" && n.on).length;
+    nurses.filter(n => n.gender === "Male" && n.on).length;
 }
 
-function updateDateTime(){
+function updateDateTime() {
   const now = new Date();
 
   const time = now.toLocaleTimeString([], {
