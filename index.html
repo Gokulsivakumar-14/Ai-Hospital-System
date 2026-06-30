@@ -3,430 +3,56 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Hospital Resource Management System</title>
-  <link rel="stylesheet" href="style.css">
+  <title>GJB Hospital Login</title>
+  <link rel="stylesheet" href="login.css">
 </head>
 
 <body>
 
-  <header>⚕️GJB Hospital</header>
-  <div id="liveDateTime">
-    🕒 <span id="time"></span><br>
-    📅 <span id="date"></span>
+  <div class="login-card">
+    <!-- Left Column: Medical Illustration -->
+    <div class="illustration-panel">
+      <div class="circle-bg"></div>
+      <img src="doctors_illustration.png" alt="Medical Team">
+    </div>
+
+    <!-- Right Column: Login Form -->
+    <div class="form-panel">
+      <div class="login-box">
+        <div class="logo-container">
+          <img src="gjb_hospital_logo.png" alt="GJB Hospital Logo" class="logo-img">
+        </div>
+
+        <h2>Welcome Back</h2>
+        <p class="subtitle">Please enter your credentials to continue</p>
+        <p class="subtitle">Staff : 1001 : staff123/ Admin: 9999 : admin123</p>
+
+
+        <select id="role">
+          <option value="">Select Role</option>
+          <option value="staff">Staff</option>
+          <option value="admin">Admin</option>
+        </select>
+
+        <input type="number" id="uid" placeholder="ID Number">
+
+        <div class="password-box">
+          <input type="password" id="pwd" placeholder="Password">
+          <span onclick="togglePassword()">👁️</span>
+        </div>
+
+        <label class="remember">
+          <input type="checkbox" id="remember"> Remember me
+        </label>
+
+        <button onclick="login()">LOGIN</button>
+
+        <p id="msg"></p>
+      </div>
+    </div>
   </div>
-  <button id="darkToggle" onclick="toggleDarkMode()"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-      stroke-linejoin="round">
-      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-    </svg></button>
-  <button id="logoutBtn" onclick="logout()">Logout</button>
 
-  <nav>
-    <button onclick="showSection('dashboard')">Dashboard</button>
-    <button onclick="showSection('patients')">Patients</button>
-    <button onclick="showSection('doctors')">Doctors</button>
-    <button onclick="showSection('billing')">Billing</button>
-    <button onclick="showSection('appointments')">Out Patient</button>
-  </nav>
-
-  <!-- DASHBOARD -->
-  <section id="dashboard" class="active">
-    <div class="card">
-      <h2>🏠︎ DashBoard</h2>
-
-      <!-- STATS CONTAINER -->
-      <div class="dashboard-stats">
-        <!-- Row 1: Columns 1-4 -->
-        <!-- Total Patients -->
-        <div class="stat-card">
-          <div class="stat-icon icon-patients">👥</div>
-          <div class="stat-info">
-            <span class="stat-label">Total Patients</span>
-            <span class="stat-value" id="statTotalPatients">0</span>
-            <span class="stat-subtext text-success">Admitted Inpatients</span>
-          </div>
-        </div>
-
-        <!-- Total Doctors -->
-        <div class="stat-card">
-          <div class="stat-icon icon-doctors">🩺</div>
-          <div class="stat-info">
-            <span class="stat-label">Total Doctors</span>
-            <span class="stat-value" id="statTotalDoctors">0</span>
-            <span class="stat-subtext text-info">Registered Doctors</span>
-          </div>
-        </div>
-
-        <!-- Total Staff -->
-        <div class="stat-card">
-          <div class="stat-icon icon-staff">💼</div>
-          <div class="stat-info">
-            <span class="stat-label">Total Staff</span>
-            <span class="stat-value" id="statTotalStaff">32</span>
-            <span class="stat-subtext text-muted">Active duty staff</span>
-          </div>
-        </div>
-
-        <!-- Today Appointments -->
-        <div class="stat-card">
-          <div class="stat-icon icon-appointments">📅</div>
-          <div class="stat-info">
-            <span class="stat-label">Today Appointments</span>
-            <span class="stat-value" id="statTodayAppointments">0</span>
-            <span class="stat-subtext text-warning">Scheduled today</span>
-          </div>
-        </div>
-
-        <!-- Row 2: Columns 1-4 -->
-        <!-- Available Beds -->
-        <div class="stat-card">
-          <div class="stat-icon icon-beds-avail">🛌</div>
-          <div class="stat-info">
-            <span class="stat-label">Available Beds</span>
-            <span class="stat-value" id="statAvailableBeds">0</span>
-            <span class="stat-subtext text-success">Ready for use</span>
-          </div>
-        </div>
-
-        <!-- Occupied Beds -->
-        <div class="stat-card">
-          <div class="stat-icon icon-beds-occ">🛌</div>
-          <div class="stat-info">
-            <span class="stat-label">Occupied Beds</span>
-            <span class="stat-value" id="statOccupiedBeds">0</span>
-            <span class="stat-subtext text-danger">Currently in use</span>
-          </div>
-        </div>
-
-        <!-- Emergency Patients -->
-        <div class="stat-card">
-          <div class="stat-icon icon-emergency">🚨</div>
-          <div class="stat-info">
-            <span class="stat-label">Emergency Patients</span>
-            <span class="stat-value" id="statEmergencyPatients">0</span>
-            <span class="stat-subtext text-danger">Critical attention</span>
-          </div>
-        </div>
-
-        <!-- Operations -->
-        <div class="stat-card">
-          <div class="stat-icon icon-operations">🏥</div>
-          <div class="stat-info">
-            <span class="stat-label">Operations</span>
-            <span class="stat-value" id="statOperations">0</span>
-            <span class="stat-subtext text-info">Scheduled today</span>
-          </div>
-        </div>
-      </div>
-
-      <input type="text" id="searchPatient" placeholder="🔍 Search GJB Hospital..." onkeyup="searchPatients()">
-
-      <table id="dashTable">
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Age</th>
-          <th>Bed</th>
-          <th>Reason</th>
-          <th>Days</th>
-        </tr>
-      </table>
-    </div>
-  </section>
-
-  <!-- PATIENTS -->
-  <section id="patients">
-    <div class="card">
-      <h2>🛌🏻 Patients</h2>
-      <input id="pname" placeholder="Patient Name">
-      <input id="page" placeholder="Age">
-      <input id="pdisease" placeholder="Disease">
-      <button onclick="addPatient()">UPDATE</button>
-    </div>
-
-    <div class="card">
-      <h2>Patient List</h2>
-      <input type="text" id="searchPatientsList" placeholder="🔍 Search Patients..." onkeyup="searchPatientsListFunc()">
-      <table id="pt">
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Bed</th>
-          <th>Days</th>
-          <th>Action</th>
-        </tr>
-      </table>
-    </div>
-  </section>
-
-  <!-- DOCTORS -->
-  <section id="doctors">
-    <div class="card">
-      <h2>🩺 Doctors</h2>
-      <input id="dname" placeholder="Doctor Name">
-      <select id="dspec">
-        <option>Cardiology</option>
-        <option>Dermatology</option>
-        <option>Neurology</option>
-        <option>Orthopedic surgery</option>
-        <option>Pediatrics</option>
-        <option>Psychiatry</option>
-        <option>Pulmonology</option>
-        <option>General surgery</option>
-        <option>ENT</option>
-        <option>Ophthalmology</option>
-      </select>
-      <select id="dstatus">
-        <option value="on">On Duty</option>
-        <option value="off">Leave</option>
-      </select>
-      <button onclick="addDoctor()">UPDATE</button>
-    </div>
-
-    <div class="card">
-      <h2>Doctors List</h2>
-      <input type="text" id="searchDoctorsList" placeholder="🔍 Search Doctors..." onkeyup="searchDoctorsListFunc()">
-      <table id="dt">
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Specialization</th>
-          <th>Status</th>
-        </tr>
-      </table>
-    </div>
-  </section>
-
-  <!-- BILLING -->
-  <section id="billing">
-    <div class="card">
-      <h2>💳 Billing & Payment</h2>
-
-      <input id="billId" placeholder="Enter Patient ID">
-      <input id="billRate" placeholder="Charge per Day (₹)">
-
-      <!-- PAYMENT MODE -->
-      <select id="paymentMode">
-        <option value="">Select Payment Mode</option>
-        <option>Cash 💵</option>
-        <option>UPI 🌐</option>
-        <option>Card 💳</option>
-      </select>
-
-      <button onclick="generateBill()">Generate & Pay</button>
-      <button onclick="downloadInvoice()">Download Invoice</button>
-
-      <h3 id="billOutput"></h3>
-    </div>
-
-    <div class="card">
-      <h2>📜 Payment History</h2>
-      <table id="paymentTable">
-        <tr>
-          <th>Date</th>
-          <th>Patient</th>
-          <th>Mode</th>
-          <th>Amount (₹)</th>
-        </tr>
-      </table>
-    </div>
-  </section>
-
-  <!-- APPOINTMENTS -->
-  <section id="appointments">
-    <div class="appointment-grid">
-      <!-- Sidebar for Booking and Assistant -->
-      <div style="display: flex; flex-direction: column; gap: 20px;">
-        <!-- Booking Card -->
-        <div class="card">
-          <h2>📅 Book Appointment</h2>
-
-          <label for="apptPatientName" style="font-weight: 500; font-size: 14px; display: block;">Patient Name:</label>
-          <input type="text" id="apptPatientName" placeholder="Enter Patient Name">
-
-          <label for="apptDoctor" style="font-weight: 500; font-size: 14px; margin-top: 10px; display: block;">Choose
-            Doctor:</label>
-          <select id="apptDoctor">
-            <!-- Dynamic -->
-          </select>
-
-          <label for="apptDate" style="font-weight: 500; font-size: 14px; margin-top: 10px; display: block;">Choose
-            Date:</label>
-          <input type="date" id="apptDate">
-
-          <label for="apptTime" style="font-weight: 500; font-size: 14px; margin-top: 10px; display: block;">Choose
-            Time:</label>
-          <input type="time" id="apptTime">
-
-          <button onclick="bookAppointment()" style="width: 100%; margin-top: 15px; font-weight: 600;">Book
-            Appointment</button>
-        </div>
-
-        <!-- Smart Assistant Card -->
-        <div class="card">
-          <h2><img src="sparkles.svg"
-              style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px; margin-top: -4px;"
-              alt="Sparkles">Smart Assistant</h2>
-          <p style="font-size: 13px; color: #64748b; margin-top: -6px; margin-bottom: 15px; line-height: 1.4;">
-            Analyze patient symptoms and recommend the most suitable department, urgency level, and preliminary
-            diagnostic tests.
-          </p>
-          <fieldset id="assistantFields"
-            style="border: none; padding: 0; margin: 0; display: flex; flex-direction: column;">
-            <label for="assistantName" style="font-weight: 500; font-size: 13px; display: block;">Patient Name:</label>
-            <input type="text" id="assistantName" placeholder="Patient Name">
-
-            <div style="display: flex; gap: 10px; margin: 4px 0;">
-              <div style="flex: 1;">
-                <label for="assistantAge" style="font-weight: 500; font-size: 13px; display: block;">Age:</label>
-                <input type="number" id="assistantAge" placeholder="Age" min="0">
-              </div>
-              <div style="flex: 1;">
-                <label for="assistantGender" style="font-weight: 500; font-size: 13px; display: block;">Gender:</label>
-                <select id="assistantGender" style="height: 48px;">
-                  <option value="">Select</option>
-                  <option>Male</option>
-                  <option>Female</option>
-                  <option>Other</option>
-                </select>
-              </div>
-            </div>
-
-            <label for="assistantPhone"
-              style="font-weight: 500; font-size: 13px; display: block; margin-top: 6px;">Phone Number:</label>
-            <input type="tel" id="assistantPhone" placeholder="Phone Number">
-
-            <label for="assistantSymptoms"
-              style="font-weight: 500; font-size: 13px; display: block; margin-top: 6px;">Symptoms:</label>
-            <textarea id="assistantSymptoms" rows="4"
-              placeholder="Describe symptoms (e.g., chest pain, high fever, skin rash)..."></textarea>
-
-            <div style="display: flex; gap: 10px; margin: 4px 0;">
-              <div style="flex: 1;">
-                <label for="assistantMedHistory" style="font-weight: 500; font-size: 13px; display: block;">Medical
-                  History:</label>
-                <select id="assistantMedHistory" style="height: 48px;">
-                  <option value="no">No</option>
-                  <option value="yes">Yes</option>
-                </select>
-              </div>
-              <div style="flex: 1;">
-                <label for="assistantAllergies"
-                  style="font-weight: 500; font-size: 13px; display: block;">Allergies:</label>
-                <select id="assistantAllergies" style="height: 48px;">
-                  <option value="no">No</option>
-                  <option value="yes">Yes</option>
-                </select>
-              </div>
-            </div>
-
-            <label for="assistantDuration"
-              style="font-weight: 500; font-size: 13px; display: block; margin-top: 6px;">Duration of Symptoms:</label>
-            <input type="text" id="assistantDuration" placeholder="e.g. 2 days, 1 week">
-
-            <div style="display: flex; gap: 10px; margin-top: 16px;">
-              <button onclick="analyzeSymptoms()" class="btn-primary" style="flex: 1; font-weight: 600;">Analyze
-                Symptoms</button>
-              <button type="button" onclick="clearAssistantForm()"
-                style="flex: 1; background: #e2e8f0; color: #475569; font-weight: 600;"
-                onmouseover="this.style.background='#cbd5e1'"
-                onmouseout="this.style.background='#e2e8f0'">Clear</button>
-            </div>
-          </fieldset>
-
-          <!-- AI Processing Loading Screen -->
-          <div id="assistantLoader"
-            style="display: none; margin-top: 22px; padding: 20px; border-radius: 12px; text-align: center; transition: opacity 0.3s ease; opacity: 0; flex-direction: column; align-items: center; justify-content: center;">
-            <div class="spinner"
-              style="border: 4px solid rgba(37, 99, 235, 0.1); border-left-color: var(--primary); border-radius: 50%; width: 40px; height: 40px; margin: 0 auto 12px auto;">
-            </div>
-            <h4
-              style="margin: 0; color: var(--primary); font-size: 15px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;">
-              <img src="sparkles.svg" style="width: 18px; height: 18px;" alt="Sparkles">AI Diagnosing Symptoms...</h4>
-            <p style="margin: 4px 0 0 0; color: #64748b; font-size: 12px;">Running clinical analysis models</p>
-          </div>
-
-          <!-- AI Analysis Report Result Card -->
-          <div id="assistantResultCard" class="result-card"
-            style="display: none; margin-top: 22px; padding-top: 15px; border-top: 2px dashed #cbd5e1; text-align: left;">
-            <h3
-              style="margin: 0 0 12px 0; color: var(--primary); display: flex; align-items: center; gap: 6px; font-size: 16px;">
-              <img src="sparkles.svg" style="width: 18px; height: 18px;" alt="Sparkles">AI Analysis Report
-            </h3>
-            <div style="display: flex; flex-direction: column; gap: 12px; font-size: 14px;">
-              <div>
-                <span
-                  style="font-weight: 600; color: #64748b; font-size: 12px; display: block; text-transform: uppercase;">Possible
-                  Conditions:</span>
-                <ul id="resConditions"
-                  style="margin: 4px 0 0 0; padding-left: 20px; font-weight: 500; line-height: 1.5; color: #334155;">
-                </ul>
-              </div>
-
-              <div>
-                <span
-                  style="font-weight: 600; color: #64748b; font-size: 12px; display: block; text-transform: uppercase;">Recommended
-                  Department:</span>
-                <span id="resDepartment" style="font-weight: 600; color: #1e3a8a; font-size: 15px;">General
-                  Medicine</span>
-              </div>
-
-              <div>
-                <span
-                  style="font-weight: 600; color: #64748b; font-size: 12px; display: block; text-transform: uppercase;">Urgency
-                  Level:</span>
-                <span id="resUrgency" class="urgency-badge" style="margin-top: 4px;">🟢 Low</span>
-              </div>
-
-              <div>
-                <span
-                  style="font-weight: 600; color: #64748b; font-size: 12px; display: block; text-transform: uppercase;">Preliminary
-                  Diagnostic Tests:</span>
-                <ul id="resTests"
-                  style="margin: 4px 0 0 0; padding-left: 20px; font-weight: 500; line-height: 1.5; color: #334155;">
-                </ul>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- View Card -->
-      <div class="card">
-        <h2>📋 Appointments List</h2>
-
-        <div style="display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; align-items: center;">
-          <input type="text" id="searchApptInput" placeholder="🔍 Search ID or Name..."
-            style="flex: 2; margin: 0; min-width: 150px;">
-          <button onclick="viewSingleAppointment()" style="flex: 0.5; margin: 0; padding: 10px 5px;">View ID</button>
-
-          <select id="filterApptStatus" onchange="renderAppointments()" style="flex: 1.2; margin: 0; min-width: 120px;">
-            <option value="All">All Statuses</option>
-            <option value="Pending">Pending</option>
-            <option value="Confirmed">Confirmed</option>
-            <option value="Completed">Completed</option>
-            <option value="Cancelled">Cancelled</option>
-          </select>
-
-          <button onclick="viewAllAppointments()" style="flex: 1; margin: 0; padding: 10px 5px;">View All</button>
-        </div>
-
-        <div style="overflow-x: auto;">
-          <table id="apptTable">
-            <!-- Dynamic -->
-          </table>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="script.js"></script>
+  <script src="login.js"></script>
 </body>
 
 </html>
-
-<footer class="staff-footer">
-  GOKUL S <span>||</span> CSE B <span>||</span> 2117240020107
-</footer>

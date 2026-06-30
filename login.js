@@ -1,10 +1,5 @@
 const API_BASE = "https://ai-hospital-system-drr0.onrender.com";
 
-// AUTO LOGIN IF REMEMBERED
-let saved = localStorage.getItem("loggedIn");
-if (saved === "staff") window.location.href = "index.html";
-if (saved === "admin") window.location.href = "admin.html";
-
 // PASSWORD SHOW/HIDE
 function togglePassword() {
   let pwd = document.getElementById("pwd");
@@ -34,7 +29,7 @@ async function login() {
     if (data.success) {
       if (remember) localStorage.setItem("loggedIn", role);
       if (role === "staff") {
-        window.location.href = "index.html";
+        window.location.href = "staff.html";
       } else {
         window.location.href = "admin.html";
       }

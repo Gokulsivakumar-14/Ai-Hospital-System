@@ -426,7 +426,7 @@ async function logout() {
   const confirmed = await showConfirm("Are you sure you want to logout?");
   if (!confirmed) return;
   localStorage.removeItem("loggedIn");
-  window.location.href = "login.html";
+  window.location.href = "index.html";
 }
 
 /* ===========================
