@@ -92,8 +92,9 @@ function showConfirm(message, title = "Confirmation") {
     });
   });
 }
+/* --RENDER CONNECTION-- */
 
-const API_BASE = window.location.protocol === "file:" ? "http://localhost:5000" : "";
+const API_BASE = "https://ai-hospital-system-drr0.onrender.com";
 let paymentHistory = [];
 let lastBill = null;
 let patientId = 1001, doctorId = 2001, bedNo = 1;
@@ -662,7 +663,7 @@ async function bookAppointment() {
       })
     });
     const newAppt = await res.json();
-    
+
     // Clear fields
     nameInput.value = "";
     doctorSelect.value = "";
