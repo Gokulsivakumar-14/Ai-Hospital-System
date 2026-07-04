@@ -263,7 +263,8 @@ const initDb = async () => {
 
 initDb();
 
-// --- API ENDPOINTS ---
+// --- API ENDPOINTS --- //
+
 
 // 1. Auth Endpoint
 app.post("/api/login", async (req, res) => {

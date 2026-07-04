@@ -9,6 +9,8 @@
 
 <body>
 
+  <div id="particles-js"></div>
+
   <div class="login-card">
     <!-- Left Column: Medical Illustration -->
     <div class="illustration-panel">
@@ -20,13 +22,19 @@
     <div class="form-panel">
       <div class="login-box">
         <div class="logo-container">
-          <img src="gjb_hospital_logo.png" alt="GJB Hospital Logo" class="logo-img">
+          <!-- Modern Teal Loop SVG Logo -->
+          <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 15C55 35 75 45 85 50C75 55 55 65 50 85C45 65 25 55 15 50C25 45 45 35 50 15Z" fill="#0ea5e9"
+              stroke="#0284c7" stroke-width="6" stroke-linejoin="round" />
+            <circle cx="50" cy="50" r="12" fill="#fff" />
+          </svg>
+          <span class="logo-text">Lifeline</span>
         </div>
 
+        <!-- login page change area -->
         <h2>Welcome Back</h2>
         <p class="subtitle">Please enter your credentials to continue</p>
-        <p class="subtitle">Staff : 1001 : staff123/ Admin: 9999 : admin123</p>
-
+        <p class="subtitle">Staff:1001:staff123 | Admin:9999:admin123</p>
 
         <select id="role">
           <option value="">Select Role</option>
